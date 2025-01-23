@@ -79,6 +79,7 @@ public class MCController {
         movieModel.loadMovies();
         categoryModel.loadCategories();
 
+
         // Bind models to TableViews
         movieTableView.setItems(movieModel.getMovies());
         categoryTableView.setItems(categoryModel.getCategories());
@@ -92,12 +93,15 @@ public class MCController {
                     movieInCategoryTableView.getItems().clear();
                     ObservableList<Movie> movieInCategory = FXCollections.observableArrayList(blMovie.getMovieByCategoryId(categoryTableView.getSelectionModel().getSelectedItem().getId()));
                     movieInCategoryTableView.setItems(movieInCategory);
+                    System.out.println(blMovie.getMovieByCategoryId(categoryTableView.getSelectionModel().getSelectedItem().getId()));
+                    //System.out.println(movieInCategory);
                 }
             }
         });
 
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
         checkLastViewAndRating();
+
     }
 
 
@@ -108,6 +112,7 @@ public class MCController {
         String query = searchField.getText();
         if (query.isEmpty()) {
             movieTableView.setItems(FXCollections.observableArrayList(movies.getMovies()));
+            categoryModel.loadCategories();
             categoryTableView.setItems(FXCollections.observableArrayList(categoryModel.getCategories()));
             System.out.println("Retrieve all movies to Movies ListView");
         } else {

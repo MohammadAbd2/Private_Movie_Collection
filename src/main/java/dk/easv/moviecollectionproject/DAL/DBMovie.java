@@ -171,7 +171,7 @@ public class DBMovie {
     }
 
     public List<Movie> getMovieInCategory(int id){
-        String query = "SELECT * FROM Movie WHERE id = ?";
+        String query = "SELECT * FROM Movie WHERE category_id = ?";
         List<Movie> movies = new ArrayList<>();
 
         try(Connection connection = db.getConnection();
