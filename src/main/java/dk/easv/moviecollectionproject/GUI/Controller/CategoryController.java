@@ -3,6 +3,7 @@ package dk.easv.moviecollectionproject.GUI.Controller;
 import dk.easv.moviecollectionproject.BE.Category;
 import dk.easv.moviecollectionproject.BLL.BLCategory;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -81,8 +82,8 @@ public class CategoryController {
     // Helper method to close the current stage (pop-up window)
     private void closeStage(TextField textField) {
         Stage currentStage = (Stage) textField.getScene().getWindow();
-        currentStage.close();
         mcController.refreshTableView();
+        currentStage.close();
     }
 
 

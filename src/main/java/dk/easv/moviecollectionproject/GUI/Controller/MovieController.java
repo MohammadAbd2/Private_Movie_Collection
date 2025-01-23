@@ -181,7 +181,10 @@ public class MovieController {
         movie.setRating(Float.parseFloat(editMovieRatingField.getText()));
         movie.setFilePath(editMovieFileField.getText());
         mlMovie.updateMovie(selectedMovie.getId(), movie);
+
     }
+
+
 }
 
 
