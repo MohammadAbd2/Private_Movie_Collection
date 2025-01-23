@@ -1,6 +1,7 @@
 package dk.easv.moviecollectionproject.GUI.Controller;
 
 import dk.easv.moviecollectionproject.GUI.Model.MLMoviePlayer;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -132,7 +134,9 @@ public class MCMediaPlayer {
     public void loadMedia(String mediaPath) {
 
         if (mediaPath != null) {
-            File file = new File(mediaPath);
+
+            File file = new File("src/main/resources/" + mediaPath);
+            System.out.println(file.getAbsolutePath());
             if(!file.exists()){
                 System.out.println("File Not Found");
             }else {

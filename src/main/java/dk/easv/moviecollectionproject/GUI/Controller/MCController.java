@@ -15,8 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -119,27 +122,49 @@ public class MCController {
 
     // Movie Management
     public void onPlayMovieClicked() {
-        // Example logic for playing a movie
+        // Ensure a movie is selected before proceeding
+        if (movieTableView.getSelectionModel().getSelectedItem() == null) {
+            showAlert("No Movie Selected", "Please select a movie from the list to play.");
+            return; // Exit the method early
+        }
+
         try {
+            // Load the media player FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/moviePlayer.fxml"));
             Parent root = loader.load();
 
-            // Get the controller for the pop-up window
+            // Get the controller for the media player window
             MCMediaPlayer mcMediaPlayer = loader.getController();
 
-            // Set the MCController as a reference in the CategoryController
+            // Set the current controller as a reference
             mcMediaPlayer.setController(this);
-            mcMediaPlayer.loadMedia(movieTableView.getSelectionModel().getSelectedItem().getFilePath());
 
+            // Get the file path from the selected movie
+            String mediaPath = movieTableView.getSelectionModel().getSelectedItem().getFilePath();
+
+            if (mediaPath == null) {
+                showAlert("Resource Not Found", "The movie file could not be found in resources.");
+                return;
+            }else{
+                mcMediaPlayer.loadMedia(mediaPath);
+            }
+
+
+
+            // Set up and display the stage
             Stage stage = new Stage();
-            stage.setTitle("Media Player playing Movie");
+            stage.setTitle("Media Player - Playing Movie");
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
+
         } catch (IOException e) {
+            // Log any unexpected errors
             e.printStackTrace();
+            showAlert("Error", "An error occurred while trying to open the media player.");
         }
     }
+
 
     public void onAddMovieClicked() {
         movieController.onAddMovieClicked();
@@ -147,15 +172,37 @@ public class MCController {
 
     //edit pop up window FXML methods
     public void onEditMovieClicked() {
-        movieController.onEditMovieClicked();
+        Movie selectedMovie = movieTableView.getSelectionModel().getSelectedItem();
+        if(selectedMovie != null) {
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/editMovieWindow.fxml"));
+                Parent root = loader.load();
+                MovieController movieController = loader.getController();
+                movieController.onEditMovieClicked(selectedMovie);
+                Stage stage = new Stage();
+                stage.setTitle("Edit Movie");
+                stage.setScene(new Scene(root));
+                stage.setResizable(false);
+                stage.show();
+                stage.setOnCloseRequest(event -> {refreshTableView();});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else {
+            System.out.println("No Movie Selected");
+        }
+
+
     }
+
     public void onEditButtonClicked(Category name) {
         Category selectedItem = categoryTableView.getSelectionModel().getSelectedItem();
         blCategory.updateCategory(selectedItem.getId(), name);
 
     }
 
-    // movie menuItems
+    // movie & Category menuItems
     public void onDeleteMovieClicked() {
         blMovie.removeMovie(movieTableView.getSelectionModel().getSelectedItem().getId());
         refreshTableView();
@@ -230,7 +277,7 @@ public class MCController {
 
 
 
-    // Category Management
+    // Application Management
     public void refreshTableView() {
         movieTableView.getItems().clear();
         categoryTableView.getItems().clear();
