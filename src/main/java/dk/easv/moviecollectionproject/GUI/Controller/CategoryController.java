@@ -18,9 +18,9 @@ public class CategoryController {
     private TableView<Category> categoryTableView;
 
     @FXML
-    private TextField playlistNameField;
+    private TextField categoryNameField;
     @FXML
-    private TextField editPlaylistNameField;
+    private TextField editCategoryNameField;
 
 
     // Set the main MCController instance (this method should be called by MCController)
@@ -30,7 +30,7 @@ public class CategoryController {
 
     // Method to handle the addition of a new category from the TextField
     public void addCategoryToDB() {
-        String categoryName = playlistNameField.getText();
+        String categoryName = categoryNameField.getText();
 
         if (categoryName.isEmpty()) {
             // Show some message or warning when the field is empty
@@ -48,14 +48,16 @@ public class CategoryController {
             System.err.println("MCController is not initialized. Cannot refresh table view.");
         }
 
-        closeStage();  // Close the current stage (pop-up window)
+        closeStage(categoryNameField);  // Close the current stage (pop-up window)
     }
 
     public void updateCategory() {
         if (mcController != null) {
             Category category = new Category();
-            category.setName(editPlaylistNameField.getText());
+            category.setName(editCategoryNameField.getText());
             mcController.onEditButtonClicked(category);
+            this.closeStage(editCategoryNameField);
+
         } else {
             System.err.println("MCController is not initialized. Cannot update category.");
         }
@@ -77,8 +79,8 @@ public class CategoryController {
     }
 
     // Helper method to close the current stage (pop-up window)
-    private void closeStage() {
-        Stage currentStage = (Stage) playlistNameField.getScene().getWindow();
+    private void closeStage(TextField textField) {
+        Stage currentStage = (Stage) textField.getScene().getWindow();
         currentStage.close();
         mcController.refreshTableView();
     }
@@ -88,7 +90,7 @@ public class CategoryController {
     // Optional method to edit an existing category (can be expanded if needed)
     public void onEditCategoryClicked(Category selectedCategory) {
         if (selectedCategory != null) {
-            editPlaylistNameField.setText(selectedCategory.getName().toString());
+            editCategoryNameField.setText(selectedCategory.getName().toString());
             // Further editing logic can be implemented here
         } else {
             System.out.println("No Category Selected for Editing");

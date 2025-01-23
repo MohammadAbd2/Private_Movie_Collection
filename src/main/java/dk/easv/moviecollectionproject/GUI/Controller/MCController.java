@@ -15,11 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,7 +37,7 @@ public class MCController {
     private TableColumn<Movie, String> categoryColumn;
 
     @FXML
-    private TableColumn<Movie, String> lastviewColumn;
+    private TableColumn<Movie, String> lastViewColumn;
 
     // Category TableView
     @FXML
@@ -74,7 +71,7 @@ public class MCController {
     @FXML
     public void initialize() {
         // Configure TableView columns
-        movieModel.configureColumns(nameColumn, ratingColumn, categoryColumn, lastviewColumn);
+        movieModel.configureColumns(nameColumn, ratingColumn, categoryColumn, lastViewColumn);
         categoryModel.configureColumns(categoryNameColumn);
         movieInCategoryModel.configureColumns(categoryMovieColumn);
 
@@ -148,8 +145,6 @@ public class MCController {
             }else{
                 mcMediaPlayer.loadMedia(mediaPath);
             }
-
-
 
             // Set up and display the stage
             Stage stage = new Stage();
@@ -225,6 +220,7 @@ public class MCController {
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
+            stage.setOnCloseRequest(event -> {refreshTableView();});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -261,6 +257,7 @@ public class MCController {
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
+            stage.setOnCloseRequest(event -> {refreshTableView();});
 
         } catch (IOException e) {
             e.printStackTrace();

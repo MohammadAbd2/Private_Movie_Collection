@@ -15,7 +15,7 @@
             <TableColumn fx:id="nameColumn" prefWidth="256.0000247955322" text="Name" />
             <TableColumn fx:id="ratingColumn" prefWidth="91.199951171875" text="Rating" />
             <TableColumn fx:id="categoryColumn" prefWidth="103.20001220703125" text="Category" />
-            <TableColumn fx:id="lastviewColumn" prefWidth="119.99996948242188" text="Lastview" />
+            <TableColumn fx:id="lastViewColumn" prefWidth="119.99996948242188" text="Lastview" />
         </columns>
         <contextMenu>
             <ContextMenu>
