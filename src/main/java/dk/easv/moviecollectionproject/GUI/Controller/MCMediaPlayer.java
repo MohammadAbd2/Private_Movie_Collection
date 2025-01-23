@@ -41,7 +41,6 @@ public class MCMediaPlayer {
         // Initially, no media file is loaded
         mlMoviePlayer = null;
         mediaView.setPreserveRatio(false); // Allow stretching to fill the MediaView completely
-
         // Set up button actions
         playPauseButton.setOnAction(e -> togglePlayPause());
         skipForwardButton.setOnAction(e -> skipForward());

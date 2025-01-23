@@ -84,7 +84,7 @@ public class MCController {
         categoryTableView.setItems(categoryModel.getCategories());
         movieInCategoryTableView.setItems(movieInCategoryModel.getMovieInCategory());
 
-
+        // on mouse click load the movies in category table
         categoryTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Category selectedMovie = categoryTableView.getSelectionModel().getSelectedItem();
@@ -97,9 +97,7 @@ public class MCController {
         });
 
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
-
         checkLastViewAndRating();
-
     }
 
 
@@ -110,9 +108,11 @@ public class MCController {
         String query = searchField.getText();
         if (query.isEmpty()) {
             movieTableView.setItems(FXCollections.observableArrayList(movies.getMovies()));
+            categoryTableView.setItems(FXCollections.observableArrayList(categoryModel.getCategories()));
             System.out.println("Retrieve all movies to Movies ListView");
         } else {
             movieTableView.setItems(FXCollections.observableArrayList(movies.filterMovies(query)));
+            categoryTableView.setItems(FXCollections.observableArrayList(categoryModel.filterCategory(query)));
             System.out.println("Searching for " + query);
         }
     }
